@@ -16,9 +16,7 @@
   :root {
     color-scheme: dark;
     --canvas: oklch(0.16 0.011 262);
-    --sunken: oklch(0.125 0.009 262);
     --surface: oklch(0.205 0.012 262);
-    --raised: oklch(0.245 0.014 262);
     --line: oklch(1 0 0 / 0.09);
     --fg: oklch(0.975 0.004 262);
     --fg-muted: oklch(0.81 0.012 262);
@@ -27,19 +25,20 @@
     --success: oklch(0.8 0.16 152);
     --ring: 0 0 0 1px oklch(1 0 0 / 0.08);
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-    --c-mind-reader: oklch(0.76 0.18 355);
-    --c-viewfinder: oklch(0.75 0.17 30);
-    --c-real-or-ai: oklch(0.82 0.155 62);
-    --c-rps: oklch(0.89 0.17 98);
-    --c-face: oklch(0.88 0.2 130);
-    --c-train: oklch(0.85 0.15 165);
-    --c-learns: oklch(0.84 0.13 205);
-    --c-airwrite: oklch(0.8 0.13 238);
-    --c-phone: oklch(0.76 0.145 262);
     --gutter: 16px;
   }
   @media (min-width: 640px) { :root { --gutter: 24px; } }
   @media (min-width: 1024px) { :root { --gutter: 32px; } }
+
+  [data-game="mind-reader"] { --game: oklch(0.76 0.18 355); --deep: oklch(0.68 0.2 8); --ink: oklch(0.17 0.05 355); }
+  [data-game="rps"] { --game: oklch(0.89 0.17 98); --deep: oklch(0.81 0.17 80); --ink: oklch(0.18 0.05 90); }
+  [data-game="face"] { --game: oklch(0.88 0.2 130); --deep: oklch(0.79 0.2 145); --ink: oklch(0.18 0.05 140); }
+  [data-game="airwrite"] { --game: oklch(0.8 0.13 238); --deep: oklch(0.71 0.16 252); --ink: oklch(0.17 0.05 250); }
+  [data-game="viewfinder"] { --game: oklch(0.75 0.17 30); --deep: oklch(0.68 0.19 34); --ink: oklch(0.17 0.05 30); }
+  [data-game="train"] { --game: oklch(0.85 0.15 165); --deep: oklch(0.76 0.15 175); --ink: oklch(0.17 0.04 170); }
+  [data-game="learns"] { --game: oklch(0.84 0.13 205); --deep: oklch(0.74 0.14 220); --ink: oklch(0.17 0.04 220); }
+  [data-game="real-or-ai"] { --game: oklch(0.82 0.155 62); --deep: oklch(0.74 0.17 50); --ink: oklch(0.18 0.05 55); }
+  [data-game="phone"] { --game: oklch(0.76 0.145 262); --deep: oklch(0.68 0.18 266); --ink: oklch(0.16 0.05 266); }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { background: var(--canvas); -webkit-text-size-adjust: 100%; }
@@ -50,92 +49,88 @@
     -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
     overflow-x: clip;
   }
-  em, i { font-style: normal; }
-  h1, h2, h3 { text-wrap: balance; }
-  p, li { text-wrap: pretty; }
+  h1, h2 { text-wrap: balance; }
+  p { text-wrap: pretty; }
   ::selection { background: var(--fg); color: var(--canvas); }
   :focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
-
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .wrap { width: 100%; max-width: 75rem; margin: 0 auto; padding: 0 var(--gutter); }
-  .label { font-family: "Martian Mono", ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.35; font-weight: 500; font-stretch: 90%; letter-spacing: -0.005em; color: var(--fg-subtle); }
-  .muted { color: var(--fg-muted); }
-  .subtle { color: var(--fg-subtle); }
+  .mono { font-family: "Martian Mono", ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.35; font-weight: 500; font-stretch: 90%; letter-spacing: -0.005em; }
+
+  .mark { display: grid; grid-template-columns: repeat(3, 1fr); width: 20px; height: 20px; flex-shrink: 0; }
+  .mark i { width: 4.3px; height: 4.3px; border-radius: 50%; place-self: center; background: var(--game); }
 
   /* Header */
   header .wrap { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: env(safe-area-inset-top); }
   .brand { display: flex; align-items: center; gap: 12px; font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em; }
-  .mark { display: grid; grid-template-columns: repeat(3, 1fr); width: 20px; height: 20px; flex-shrink: 0; }
-  .mark i { width: 4.3px; height: 4.3px; border-radius: 50%; place-self: center; }
   .head-meta { font-size: 0.875rem; color: var(--fg-subtle); }
   @media (max-width: 539px) { .head-meta { display: none; } }
 
   /* Hero */
-  .hero { display: grid; gap: 40px; padding: 32px 0 72px; align-items: center; }
-  @media (min-width: 900px) { .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; padding: 56px 0 104px; } }
-  .eyebrow { display: inline-flex; align-items: center; gap: 8px; }
-  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 0 oklch(0.8 0.16 152 / 0.5); animation: live 2.4s var(--ease-out) infinite; }
+  .hero { display: grid; gap: 8px; align-items: center; padding: 24px 0 40px; }
+  @media (min-width: 960px) { .hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 24px; padding: 40px 0 72px; min-height: min(760px, calc(100dvh - 64px)); } }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--fg-subtle); }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: live 2.4s var(--ease-out) infinite; }
   @keyframes live { 0% { box-shadow: 0 0 0 0 oklch(0.8 0.16 152 / 0.55); } 70%, 100% { box-shadow: 0 0 0 8px oklch(0.8 0.16 152 / 0); } }
   h1 {
-    margin-top: 18px;
-    font-size: clamp(3rem, 1.6rem + 6vw, 6rem); line-height: 0.92; letter-spacing: -0.04em;
+    margin-top: 16px;
+    font-size: clamp(3rem, 1.4rem + 6.4vw, 6rem); line-height: 0.92; letter-spacing: -0.04em;
     font-weight: 800; font-stretch: 112%;
   }
   h1 .dim { display: block; color: var(--fg-faint); }
-  .lead { margin-top: 22px; font-size: 1.125rem; max-width: 32rem; color: var(--fg-muted); }
-  .cta-row { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-  .pill { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 18px; border-radius: 999px; font-weight: 600; font-size: 0.9375rem; text-decoration: none; }
-  .pill-primary { background: var(--fg); color: var(--canvas); transition: scale 140ms var(--ease-out); }
-  .pill-primary:active { scale: 0.97; }
-  .pill-primary svg { width: 16px; height: 16px; }
-  .pill-quiet { background: var(--surface); box-shadow: var(--ring); color: var(--fg-muted); font-weight: 500; }
+  .lead { margin-top: 20px; font-size: 1.125rem; max-width: 30rem; color: var(--fg-muted); }
 
-  /* Machine readout */
-  .readout {
-    position: relative; border-radius: 28px; background: var(--sunken); box-shadow: var(--ring);
-    padding: 22px; overflow: hidden;
+  /* The board: nine cartridges laid out like the poster, tilting towards you. */
+  .stage { position: relative; display: grid; place-items: center; perspective: 1600px; padding: 4% 0 0; }
+  .board {
+    --tilt-x: 0deg; --tilt-z: 0deg;
+    width: min(68vw, 430px); aspect-ratio: 1;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 5%;
+    transform-style: preserve-3d;
+    transform: rotateX(calc(54deg + var(--tilt-x))) rotateZ(calc(-38deg + var(--tilt-z)));
+    transition: transform 900ms var(--ease-out);
+    container-type: inline-size;
+    margin: -6% 0 -2%;
   }
-  .readout::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background-image: radial-gradient(circle at center, oklch(1 0 0 / 0.11) 1.1px, transparent 1.6px);
-    background-size: 14px 14px;
-    mask-image: linear-gradient(180deg, #000 0%, transparent 70%);
+  .tile {
+    position: relative; border-radius: 14%; transform-style: preserve-3d;
+    background:
+      radial-gradient(120% 90% at 0% 0%, oklch(1 0 0 / 0.34), transparent 55%),
+      linear-gradient(in oklab 155deg, var(--game) 10%, var(--deep) 100%);
+    color: var(--ink);
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.4),
+      1.2cqw 1.6cqw 0 color-mix(in oklab, var(--deep) 70%, black),
+      3cqw 5cqw 6cqw oklch(0 0 0 / 0.5);
+    transform: translateZ(0);
+    transition: transform 420ms var(--ease-out), box-shadow 420ms var(--ease-out);
+    animation: drop 900ms var(--ease-out) backwards;
+    animation-delay: calc(200ms + var(--i) * 70ms);
+    cursor: default; outline: none;
   }
-  .readout > * { position: relative; }
-  .readout-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .readout h2 { margin-top: 14px; font-size: 1.5rem; line-height: 1.15; font-weight: 740; font-stretch: 106%; letter-spacing: -0.016em; }
-  .rows { margin-top: 18px; display: grid; gap: 2px; list-style: none; }
-  .rows li {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
-    padding: 11px 14px; border-radius: 14px; background: oklch(1 0 0 / 0.035);
-    opacity: 0; translate: 0 8px; transition: opacity 420ms var(--ease-out), translate 420ms var(--ease-out);
+  @keyframes drop { from { opacity: 0; transform: translateZ(28cqw); } }
+  .tile.up {
+    transform: translateZ(5cqw);
+    box-shadow:
+      inset 0 1px 0 oklch(1 0 0 / 0.4),
+      1.2cqw 1.6cqw 0 color-mix(in oklab, var(--deep) 70%, black),
+      7cqw 10cqw 8cqw oklch(0 0 0 / 0.45);
   }
-  .rows li.on { opacity: 1; translate: 0 0; }
-  .rows .k { font-size: 0.875rem; color: var(--fg-subtle); }
-  .rows .v { font-family: "Martian Mono", ui-monospace, monospace; font-size: 0.875rem; font-weight: 500; font-stretch: 90%; text-align: right; font-variant-numeric: tabular-nums; color: var(--fg); }
-  .readout-foot { margin-top: 16px; font-size: 0.875rem; color: var(--fg-muted); }
-  .readout-foot b { color: var(--fg); font-weight: 600; }
-  .no-js .rows li { opacity: 1; translate: 0 0; }
+  .tile .n { position: absolute; top: 9%; right: 11%; font-family: "Doto", monospace; font-weight: 800; font-variation-settings: "ROND" 70; font-size: 4.2cqw; line-height: 1; opacity: 0.7; }
+  .tile svg { position: absolute; left: 50%; top: 46%; width: 34%; height: 34%; translate: -50% -50%; }
+  .tile .t { position: absolute; left: 11%; right: 9%; bottom: 9%; font-size: 2.9cqw; line-height: 1.08; font-weight: 750; font-stretch: 104%; letter-spacing: -0.01em; }
+  @container (max-width: 300px) { .tile .t { display: none; } .tile svg { top: 52%; } }
 
-  /* Sections */
-  section.block { padding: 72px 0; border-top: 1px solid var(--line); }
-  @media (min-width: 900px) { section.block { padding: 96px 0; } }
-  .sec-head { display: grid; gap: 10px; margin-bottom: 32px; }
-  @media (min-width: 900px) { .sec-head { grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; } }
-  h2.title { font-size: clamp(2rem, 1.5rem + 1.8vw, 2.75rem); line-height: 1.04; letter-spacing: -0.028em; font-weight: 780; font-stretch: 110%; }
-  .sec-head p { max-width: 32rem; color: var(--fg-muted); }
-
-  /* Groups of games */
-  .groups { display: grid; gap: 12px; }
-  @media (min-width: 720px) { .groups { grid-template-columns: 1fr 1fr; } }
-  .group { border-radius: 28px; background: var(--surface); box-shadow: var(--ring); padding: 22px; display: flex; flex-direction: column; gap: 16px; }
-  .group h3 { font-size: 1.25rem; line-height: 1.25; font-weight: 700; font-stretch: 104%; letter-spacing: -0.01em; }
-  .group p { font-size: 0.9375rem; color: var(--fg-muted); margin-top: 4px; }
-  .games { list-style: none; display: grid; gap: 6px; }
-  .game { display: flex; align-items: center; gap: 12px; padding: 6px 12px 6px 6px; border-radius: 18px; background: oklch(1 0 0 / 0.035); }
-  .glyph { width: 44px; height: 44px; flex-shrink: 0; border-radius: 14px; display: grid; place-items: center; color: oklch(0.17 0.05 262); background: var(--hue); }
-  .glyph svg { width: 20px; height: 20px; }
-  .game b { display: block; font-size: 0.9375rem; font-weight: 600; line-height: 1.3; }
-  .game span { font-size: 0.8125rem; color: var(--fg-subtle); }
+  /* What the board is pointing at right now. */
+  .now { margin-top: 18px; display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; }
+  .now .chip { display: inline-flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px 0 6px; border-radius: 999px; background: var(--surface); box-shadow: var(--ring); max-width: 100%; }
+  .now .dot { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--game); color: var(--ink); flex-shrink: 0; transition: background-color 300ms var(--ease-out); }
+  .now .dot svg { width: 16px; height: 16px; }
+  .now b { font-size: 0.9375rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .now .mono { color: var(--fg-subtle); white-space: nowrap; }
+  @media (max-width: 420px) { .now .mono { display: none; } }
+  .swap { animation: swap 360ms var(--ease-out); }
+  @keyframes swap { from { opacity: 0; transform: translateY(6px); } }
 
   /* Room 227 */
   .room {
@@ -145,297 +140,171 @@
       linear-gradient(in oklab 155deg, oklch(0.89 0.17 98) 10%, oklch(0.81 0.17 80) 100%);
     color: oklch(0.18 0.05 90);
     box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.35), inset 0 -1px 0 oklch(0 0 0 / 0.12);
-    padding: 28px; display: grid; gap: 28px;
+    padding: 28px; display: grid; gap: 20px;
   }
   .room::after {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 1; opacity: 0.16; mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
   }
   .room > * { position: relative; z-index: 2; }
-  @media (min-width: 900px) { .room { grid-template-columns: 1.3fr 1fr; align-items: end; padding: 48px; } .room .when { text-align: right; } }
-  .room .label { color: oklch(0.18 0.05 90 / 0.8); }
-  .room h2 { margin-top: 10px; font-size: clamp(3.5rem, 2rem + 7vw, 7.5rem); line-height: 0.9; letter-spacing: -0.045em; font-weight: 820; font-stretch: 112%; }
-  .room .when { font-family: "Doto", ui-monospace, monospace; font-weight: 800; font-variation-settings: "ROND" 70; font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem); line-height: 0.9; letter-spacing: 0.02em; }
-  .room p { margin-top: 12px; font-size: 1rem; font-weight: 500; max-width: 26rem; color: oklch(0.18 0.05 90 / 0.86); }
+  @media (min-width: 860px) { .room { grid-template-columns: 1fr auto; align-items: end; padding: 44px 48px; } }
+  .room .mono { color: oklch(0.18 0.05 90 / 0.8); }
+  .room h2 { margin-top: 8px; font-size: clamp(3.5rem, 2rem + 6vw, 6.5rem); line-height: 0.9; letter-spacing: -0.045em; font-weight: 820; font-stretch: 112%; }
+  .room p { margin-top: 12px; font-weight: 500; max-width: 28rem; color: oklch(0.18 0.05 90 / 0.86); }
+  .room .when { font-family: "Doto", monospace; font-weight: 800; font-variation-settings: "ROND" 70; font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem); line-height: 0.92; letter-spacing: 0.02em; }
+  @media (min-width: 860px) { .room .when { text-align: right; } }
 
-  /* Good to know */
-  .facts { list-style: none; display: grid; gap: 12px; margin-top: 12px; }
-  @media (min-width: 640px) { .facts { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1024px) { .facts { grid-template-columns: repeat(4, 1fr); } }
-  .fact { border-radius: 20px; background: var(--surface); box-shadow: var(--ring); padding: 18px; }
-  .fact .ico { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: oklch(1 0 0 / 0.06); color: var(--fg); margin-bottom: 14px; }
-  .fact .ico svg { width: 18px; height: 18px; }
-  .fact b { display: block; font-weight: 650; font-size: 1rem; }
-  .fact p { margin-top: 4px; font-size: 0.875rem; color: var(--fg-subtle); }
+  .facts { list-style: none; display: grid; gap: 10px; margin-top: 10px; }
+  @media (min-width: 720px) { .facts { grid-template-columns: repeat(3, 1fr); } }
+  .fact { display: flex; gap: 14px; align-items: flex-start; border-radius: 20px; background: var(--surface); box-shadow: var(--ring); padding: 16px 18px; }
+  .fact svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 3px; color: var(--fg-muted); }
+  .fact b { display: block; font-weight: 650; }
+  .fact span { font-size: 0.875rem; color: var(--fg-subtle); }
 
   /* Footer */
-  footer { border-top: 1px solid var(--line); padding: 64px 0 max(40px, env(safe-area-inset-bottom)); }
-  .foot-top { display: grid; gap: 40px; align-items: center; }
-  @media (min-width: 900px) { .foot-top { grid-template-columns: 1fr auto; gap: 64px; } }
-  .foot-top h2 { font-size: clamp(2.25rem, 1.35rem + 3.3vw, 4rem); line-height: 0.98; letter-spacing: -0.03em; font-weight: 800; font-stretch: 110%; max-width: 15ch; }
-  .foot-top p { margin-top: 14px; font-size: 1.125rem; color: var(--fg-muted); max-width: 30rem; }
-  .eyes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10%; width: min(46vw, 13rem); aspect-ratio: 1; justify-self: center; }
-  @media (min-width: 900px) { .eyes { justify-self: end; } }
-  .eye { position: relative; border-radius: 50%; background: var(--hue); box-shadow: inset 0 2px 0 oklch(1 0 0 / 0.3); }
-  .pupil { position: absolute; left: 50%; top: 50%; width: 38%; height: 38%; margin: -19% 0 0 -19%; border-radius: 50%; background: oklch(0.14 0.02 262); scale: 0; transition: scale 460ms var(--ease-out); transition-delay: calc(var(--i) * 45ms); }
-  .eyes.awake .pupil { scale: 1; }
-  .eye.blink { animation: blink 180ms ease-in-out; }
-  @keyframes blink { 50% { scale: 1 0.1; } }
-  .credits { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--line); display: grid; gap: 20px; }
-  @media (min-width: 900px) { .credits { grid-template-columns: 1fr auto; align-items: start; gap: 48px; } }
-  .makers { display: flex; gap: 12px; align-items: flex-start; }
-  .makers .mark { width: 28px; height: 28px; margin-top: 2px; }
-  .makers .mark i { width: 6px; height: 6px; }
-  .makers b { display: block; font-weight: 600; font-size: 0.9375rem; }
-  .makers p { font-size: 0.875rem; color: var(--fg-subtle); max-width: 30rem; }
-  .names { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .name { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 6px; border-radius: 999px; background: var(--surface); box-shadow: var(--ring); font-size: 0.875rem; font-weight: 600; }
-  .name i { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; color: oklch(0.17 0.05 262); background: var(--hue); }
-  .name span { color: var(--fg-subtle); font-weight: 480; }
-  .privacy { display: flex; gap: 8px; align-items: flex-start; font-size: 0.875rem; color: var(--fg-subtle); max-width: 24rem; }
-  .privacy svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; color: var(--success); }
+  footer { margin-top: 64px; border-top: 1px solid var(--line); padding: 28px 0 max(32px, env(safe-area-inset-bottom)); }
+  footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .makers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .makers > span { font-size: 0.875rem; color: var(--fg-subtle); margin-right: 4px; }
+  .name { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px 0 5px; border-radius: 999px; background: var(--surface); box-shadow: var(--ring); font-size: 0.875rem; font-weight: 600; }
+  .name i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 0.75rem; font-weight: 700; color: var(--ink); background: var(--game); }
+  .name small { color: var(--fg-subtle); font-weight: 480; font-size: 0.8125rem; }
+  .foot-note { font-size: 0.8125rem; color: var(--fg-faint); }
 
-  /* Motion */
   @keyframes rise-in { from { opacity: 0; transform: translateY(14px); } }
   .enter { animation: rise-in 720ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
   @supports (animation-timeline: view()) {
-    .reveal { animation: rise-in linear both; animation-timeline: view(); animation-range: entry var(--s, 0%) entry calc(55% + var(--s, 0%)); }
+    .reveal { animation: rise-in linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .enter, .reveal { animation: none !important; }
+    .enter, .reveal, .tile, .swap { animation: none !important; }
     .live-dot { animation: none; }
-    .rows li, .pupil { transition: none; }
-    .eye.blink { animation: none; }
+    .board, .tile { transition: none; }
   }
 </style>
 </head>
-<body class="no-js">
-<script>document.body.classList.remove("no-js");</script>
+<body>
 
 <header>
   <div class="wrap">
     <div class="brand">
-      <span class="mark" aria-hidden="true"><i style="background:var(--c-mind-reader)"></i><i style="background:var(--c-viewfinder)"></i><i style="background:var(--c-real-or-ai)"></i><i style="background:var(--c-rps)"></i><i style="background:var(--c-face)"></i><i style="background:var(--c-train)"></i><i style="background:var(--c-learns)"></i><i style="background:var(--c-airwrite)"></i><i style="background:var(--c-phone)"></i></span>
+      <span class="mark" aria-hidden="true"><i data-game="mind-reader"></i><i data-game="viewfinder"></i><i data-game="real-or-ai"></i><i data-game="rps"></i><i data-game="face"></i><i data-game="train"></i><i data-game="learns"></i><i data-game="airwrite"></i><i data-game="phone"></i></span>
       Beyond the Algorithm
     </div>
     <span class="head-meta">EDEX 2026 · IISJ Computer Science</span>
   </div>
 </header>
 
-<main>
-  <div class="wrap">
-    <section class="hero" aria-labelledby="hero-title">
-      <div>
-        <span class="eyebrow label enter"><span class="live-dot" aria-hidden="true"></span>Live in Room 227 · 19 and 20 November</span>
-        <h1 id="hero-title" class="enter" style="--d:80ms">Pick a game. <span class="dim">It picks up on you.</span></h1>
-        <p class="lead enter" style="--d:160ms">Nine quick games where you show the machine your face, your hands and your choices, and it works out more than you expect. Then we show you exactly how it did it.</p>
-        <div class="cta-row enter" style="--d:240ms">
-          <a class="pill pill-primary" href="#room">Find us in Room 227
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-          </a>
-          <span class="pill pill-quiet">2 to 4 minutes each</span>
-        </div>
-      </div>
+<main class="wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <span class="eyebrow mono enter"><span class="live-dot" aria-hidden="true"></span>Live in Room 227 · 19 and 20 November</span>
+      <h1 id="hero-title" class="enter" style="--d:80ms">Pick a game. <span class="dim">It picks up on you.</span></h1>
+      <p class="lead enter" style="--d:160ms">Nine quick games where you show the machine your face, your hands and your choices. It works out more than you expect, then we show you exactly how.</p>
+    </div>
 
-      <aside class="readout enter" style="--d:300ms" aria-labelledby="readout-title">
-        <div class="readout-head">
-          <span class="label">Machine view</span>
-          <span class="label" id="clock" aria-hidden="true"></span>
-        </div>
-        <h2 id="readout-title">This page has been reading you too.</h2>
-        <ul class="rows" id="rows" aria-live="off">
-          <li><span class="k">You're on</span><span class="v" id="r-device">a screen</span></li>
-          <li><span class="k">Screen size</span><span class="v" id="r-size">…</span></li>
-          <li><span class="k">Your time</span><span class="v" id="r-time">…</span></li>
-          <li><span class="k">Time on this page</span><span class="v" id="r-on">0:00</span></li>
-          <li><span class="k">Scrolled</span><span class="v" id="r-scroll">0%</span></li>
-          <li><span class="k">Taps and clicks</span><span class="v" id="r-taps">0</span></li>
+    <div class="enter" style="--d:120ms">
+      <div class="stage">
+        <ul class="board" id="board" aria-label="The nine games">
+          <li class="tile" data-game="mind-reader" style="--i:0" data-name="Can AI read your mind?" data-skill="Binary search"><span class="n">01</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M12 5v14"/><rect x="3" y="5" width="9" height="14" rx="3" fill="currentColor" stroke="none" opacity="0.9"/></svg><span class="t">Can AI read your mind?</span></li>
+          <li class="tile" data-game="rps" style="--i:1" data-name="Rock, paper, scissors" data-skill="Pattern prediction"><span class="n">02</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="17.5" r="2.5"/><path d="M8.6 8.1 20 19"/><path d="M8.6 15.9 20 5"/></svg><span class="t">Rock, paper, scissors</span></li>
+          <li class="tile" data-game="face" style="--i:2" data-name="Face Control" data-skill="Face tracking, 478 points"><span class="n">03</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(-12 12 12)"><rect x="4" y="3" width="16" height="18" rx="8"/><circle cx="9.2" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="10" r="1" fill="currentColor" stroke="none"/><ellipse cx="12" cy="15.4" rx="2.2" ry="1.9"/></g></svg><span class="t">Face Control</span></li>
+          <li class="tile" data-game="airwrite" style="--i:3" data-name="AirWrite" data-skill="Hand tracking, 21 points"><span class="n">04</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c2.2-6 3.6-9 5-9s.8 7 2.4 7 2.2-5 3.8-5 1.2 4 2.8 4"/><circle cx="19.5" cy="14.5" r="2" fill="currentColor" stroke="none"/></svg><span class="t">AirWrite</span></li>
+          <li class="tile" data-game="viewfinder" style="--i:4" data-name="Viewfinder" data-skill="Two-hand tracking"><span class="n">05</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9"/><path d="M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9"/><path d="M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15"/><path d="M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/></svg><span class="t">Viewfinder</span></li>
+          <li class="tile" data-game="train" style="--i:5" data-name="Train the machine" data-skill="Pose classification"><span class="n">06</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M12 7v7"/><path d="M12 9.5 7 7"/><path d="M12 9.5 17 4.5"/><path d="M12 14 8.5 20"/><path d="M12 14l3.5 6"/></svg><span class="t">Train the machine</span></li>
+          <li class="tile" data-game="learns" style="--i:6" data-name="See how AI learns" data-skill="Image classification"><span class="n">07</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2.5"/><path d="m3.5 13 4-3.5 3 2.5 2-1.5 4 3.5"/><path d="M13 17.5h6.5a1.5 1.5 0 0 0 1.5-1.5v-2.5L18.5 11H13a1.5 1.5 0 0 0-1.5 1.5V16a1.5 1.5 0 0 0 1.5 1.5Z" fill="currentColor" stroke="none"/></svg><span class="t">See how AI learns</span></li>
+          <li class="tile" data-game="real-or-ai" style="--i:7" data-name="Real or AI?" data-skill="Image generation"><span class="n">08</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="2"/><rect x="13" y="5" width="8" height="14" rx="2" stroke-dasharray="0.1 3.2"/></svg><span class="t">Real or AI?</span></li>
+          <li class="tile" data-game="phone" style="--i:8" data-name="Your phone knows more than you think" data-skill="Sensors and inference"><span class="n">09</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 5.5h3"/><circle cx="12" cy="13" r="2.5" fill="currentColor" stroke="none"/></svg><span class="t">Your phone knows more than you think</span></li>
         </ul>
-        <p class="readout-foot">No camera and no permission asked. <b>In Room 227 the machine gets a camera.</b> Nothing here leaves your device.</p>
-      </aside>
-    </section>
-  </div>
-
-  <section class="block" aria-labelledby="inside-title">
-    <div class="wrap">
-      <div class="sec-head reveal">
-        <h2 class="title" id="inside-title">Nine games, four ideas</h2>
-        <p>AI isn't magic, and it isn't only chatbots. It finds patterns in numbers: points on your face, your past choices, the examples you show it.</p>
       </div>
-      <div class="groups">
-        <div class="group reveal">
-          <div><h3>It predicts you</h3><p>People are less random than they think.</p></div>
-          <ul class="games">
-            <li class="game"><span class="glyph" style="--hue:var(--c-mind-reader)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M12 5v14"/><rect x="3" y="5" width="9" height="14" rx="3" fill="currentColor" stroke="none" opacity="0.9"/></svg></span><div><b>Can AI read your mind?</b><span>Binary search</span></div></li>
-            <li class="game"><span class="glyph" style="--hue:var(--c-rps)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="17.5" r="2.5"/><path d="M8.6 8.1 20 19"/><path d="M8.6 15.9 20 5"/></svg></span><div><b>Rock, paper, scissors</b><span>Pattern prediction</span></div></li>
-          </ul>
-        </div>
-        <div class="group reveal" style="--s:12%">
-          <div><h3>It sees you</h3><p>A camera gives a computer coloured pixels. These games turn them into your face and hands.</p></div>
-          <ul class="games">
-            <li class="game"><span class="glyph" style="--hue:var(--c-face)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(-12 12 12)"><rect x="4" y="3" width="16" height="18" rx="8"/><circle cx="9.2" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="10" r="1" fill="currentColor" stroke="none"/><ellipse cx="12" cy="15.4" rx="2.2" ry="1.9"/></g></svg></span><div><b>Face Control</b><span>Face tracking, 478 points</span></div></li>
-            <li class="game"><span class="glyph" style="--hue:var(--c-airwrite)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17c2.2-6 3.6-9 5-9s.8 7 2.4 7 2.2-5 3.8-5 1.2 4 2.8 4"/><circle cx="19.5" cy="14.5" r="2" fill="currentColor" stroke="none"/></svg></span><div><b>AirWrite</b><span>Hand tracking, 21 points</span></div></li>
-            <li class="game"><span class="glyph" style="--hue:var(--c-viewfinder)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V5.5A1.5 1.5 0 0 1 5.5 4H9"/><path d="M15 4h3.5A1.5 1.5 0 0 1 20 5.5V9"/><path d="M20 15v3.5a1.5 1.5 0 0 1-1.5 1.5H15"/><path d="M9 20H5.5A1.5 1.5 0 0 1 4 18.5V15"/><circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/></svg></span><div><b>Viewfinder</b><span>Two-hand tracking</span></div></li>
-          </ul>
-        </div>
-        <div class="group reveal">
-          <div><h3>It learns from you</h3><p>Nobody writes the rules. You show the machine examples, and it works out what they have in common.</p></div>
-          <ul class="games">
-            <li class="game"><span class="glyph" style="--hue:var(--c-train)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M12 7v7"/><path d="M12 9.5 7 7"/><path d="M12 9.5 17 4.5"/><path d="M12 14 8.5 20"/><path d="M12 14l3.5 6"/></svg></span><div><b>Train the machine</b><span>Pose classification</span></div></li>
-            <li class="game"><span class="glyph" style="--hue:var(--c-learns)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2.5"/><path d="m3.5 13 4-3.5 3 2.5 2-1.5 4 3.5"/><path d="M13 17.5h6.5a1.5 1.5 0 0 0 1.5-1.5v-2.5L18.5 11H13a1.5 1.5 0 0 0-1.5 1.5V16a1.5 1.5 0 0 0 1.5 1.5Z" fill="currentColor" stroke="none"/></svg></span><div><b>See how AI learns</b><span>Image classification</span></div></li>
-          </ul>
-        </div>
-        <div class="group reveal" style="--s:12%">
-          <div><h3>It's already around you</h3><p>Photos no camera took, and the sensors in your pocket.</p></div>
-          <ul class="games">
-            <li class="game"><span class="glyph" style="--hue:var(--c-real-or-ai)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="2"/><rect x="13" y="5" width="8" height="14" rx="2" stroke-dasharray="0.1 3.2"/></svg></span><div><b>Real or AI?</b><span>Image generation</span></div></li>
-            <li class="game"><span class="glyph" style="--hue:var(--c-phone)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 5.5h3"/><circle cx="12" cy="13" r="2.5" fill="currentColor" stroke="none"/></svg></span><div><b>Your phone knows more than you think</b><span>Sensors and inference</span></div></li>
-          </ul>
-        </div>
+      <div class="now" aria-hidden="true">
+        <span class="chip" id="now" data-game="mind-reader"><span class="dot" id="now-dot"></span><b id="now-name">Can AI read your mind?</b><span class="mono" id="now-skill">Binary search</span></span>
       </div>
     </div>
   </section>
 
-  <section class="block" id="room" aria-labelledby="room-title">
-    <div class="wrap">
-      <div class="room reveal">
-        <div>
-          <span class="label">Come play it live</span>
-          <h2 id="room-title">Room 227</h2>
-          <p>International Indian School Jeddah, during EDEX. Walk in, pick a game and see what the machine makes of you.</p>
-        </div>
-        <div>
-          <div class="when" aria-label="19 and 20 November">19+20<br>Nov</div>
-        </div>
+  <section id="room" aria-labelledby="room-title">
+    <div class="room reveal">
+      <div>
+        <span class="mono">Come play it live</span>
+        <h2 id="room-title">Room 227</h2>
+        <p>International Indian School Jeddah, during EDEX. Walk in, pick a game and see what the machine makes of you.</p>
       </div>
-
-      <ul class="facts">
-        <li class="fact reveal">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-          <b>Quick to play</b><p>Each game takes 2 to 4 minutes. Try one or all nine.</p>
-        </li>
-        <li class="fact reveal" style="--s:8%">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-          <b>Bring everyone</b><p>All ages. Some games are more fun with a friend watching.</p>
-        </li>
-        <li class="fact reveal" style="--s:16%">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span>
-          <b>Nothing is recorded</b><p>The camera is read on the laptop in front of you. No photos are saved.</p>
-        </li>
-        <li class="fact reveal" style="--s:24%">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></span>
-          <b>Take it home</b><p>Visit the room and we'll give you the link to keep playing on your phone.</p>
-        </li>
-      </ul>
+      <div class="when" aria-label="19 and 20 November">19+20<br>Nov</div>
     </div>
+    <ul class="facts">
+      <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>2 to 4 minutes each</b><span>Try one, or all nine. All ages welcome.</span></div></li>
+      <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><div><b>Nothing is recorded</b><span>The camera is read live. No photos are saved.</span></div></li>
+      <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg><div><b>Take it home</b><span>Visit us and we'll give you the link to play on your phone.</span></div></li>
+    </ul>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <div class="foot-top">
-      <div class="reveal">
-        <h2>The machine is curious about you.</h2>
-        <p>It's waiting in Room 227. Come and find out what it can work out.</p>
-      </div>
-      <div class="eyes" id="eyes" aria-hidden="true">
-        <span class="eye" style="--hue:var(--c-mind-reader);--i:0"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-viewfinder);--i:1"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-real-or-ai);--i:2"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-rps);--i:3"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-face);--i:4"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-train);--i:5"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-learns);--i:6"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-airwrite);--i:7"><span class="pupil"></span></span>
-        <span class="eye" style="--hue:var(--c-phone);--i:8"><span class="pupil"></span></span>
-      </div>
+    <div class="makers">
+      <span>Made by</span>
+      <span class="name" data-game="airwrite"><i>M</i>Mirsab <small>Grade 10</small></span>
+      <span class="name" data-game="train"><i>D</i>Dilshaan <small>Grade 9</small></span>
     </div>
-
-    <div class="credits">
-      <div class="makers">
-        <span class="mark" aria-hidden="true"><i style="background:var(--c-mind-reader)"></i><i style="background:var(--c-viewfinder)"></i><i style="background:var(--c-real-or-ai)"></i><i style="background:var(--c-rps)"></i><i style="background:var(--c-face)"></i><i style="background:var(--c-train)"></i><i style="background:var(--c-learns)"></i><i style="background:var(--c-airwrite)"></i><i style="background:var(--c-phone)"></i></span>
-        <div>
-          <b>Beyond the Algorithm</b>
-          <p>Made by two students for EDEX 2026, IISJ Computer Science.</p>
-          <div class="names">
-            <span class="name"><i style="--hue:var(--c-airwrite)">M</i>Mirsab <span>Grade 10</span></span>
-            <span class="name"><i style="--hue:var(--c-train)">D</i>Dilshaan <span>Grade 9</span></span>
-          </div>
-        </div>
-      </div>
-      <p class="privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span>This page has no tracking. The readout above is worked out on your device and goes nowhere.</span></p>
-    </div>
+    <span class="foot-note">Beyond the Algorithm · EDEX 2026 · International Indian School Jeddah</span>
   </div>
 </footer>
 
 <script>
 (function () {
   var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var touch = matchMedia("(pointer: coarse)").matches;
-  var start = Date.now(), taps = 0, maxScroll = 0;
-  function $(id) { return document.getElementById(id); }
+  var fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var board = document.getElementById("board");
+  var tiles = Array.prototype.slice.call(board.querySelectorAll(".tile"));
+  var chip = document.getElementById("now"), dot = document.getElementById("now-dot");
+  var nameEl = document.getElementById("now-name"), skillEl = document.getElementById("now-skill");
+  var current = -1, held = false, timer = null;
 
-  // Device guess from what any web page can read.
-  var w = screen.width, h = screen.height, ua = navigator.userAgent;
-  var device = /iPad|Tablet/i.test(ua) || (touch && Math.min(w, h) >= 600) ? "a tablet"
-    : touch ? (/iPhone/i.test(ua) ? "an iPhone" : /Android/i.test(ua) ? "an Android phone" : "a phone")
-    : "a computer";
-  $("r-device").textContent = device;
+  function show(i) {
+    if (i === current) return;
+    if (current >= 0) tiles[current].classList.remove("up");
+    current = i;
+    var t = tiles[i];
+    t.classList.add("up");
+    chip.setAttribute("data-game", t.getAttribute("data-game"));
+    dot.innerHTML = t.querySelector("svg").outerHTML;
+    nameEl.textContent = t.getAttribute("data-name");
+    skillEl.textContent = t.getAttribute("data-skill");
+    chip.classList.remove("swap"); void chip.offsetWidth; chip.classList.add("swap");
+  }
 
-  function size() { $("r-size").textContent = innerWidth + " × " + innerHeight; }
-  function time() {
-    var d = new Date();
-    var t = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-    var hr = d.getHours();
-    var part = hr < 5 ? "late night" : hr < 12 ? "morning" : hr < 17 ? "afternoon" : hr < 21 ? "evening" : "night";
-    $("r-time").textContent = t.replace(/AM|PM/, function (m) { return m.toLowerCase(); }) + ", " + part;
+  // The board picks a game on its own, one after another, until you pick one.
+  function cycle() {
+    clearInterval(timer);
+    timer = setInterval(function () { if (!held) show((current + 1) % tiles.length); }, 1800);
   }
-  function on() {
-    var s = Math.floor((Date.now() - start) / 1000);
-    $("r-on").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
-  }
-  function scroll() {
-    var max = document.documentElement.scrollHeight - innerHeight;
-    var p = max > 0 ? Math.round((scrollY / max) * 100) : 0;
-    if (p > maxScroll) maxScroll = Math.min(100, p);
-    $("r-scroll").textContent = maxScroll + "%";
-  }
-  size(); time(); on(); scroll();
-  addEventListener("resize", size);
-  addEventListener("scroll", scroll, { passive: true });
-  addEventListener("pointerdown", function () { taps++; $("r-taps").textContent = taps; });
-  setInterval(function () { on(); time(); }, 1000);
+  setTimeout(function () { show(0); if (!reduce) cycle(); }, reduce ? 0 : 1100);
 
-  // Rows switch on one after another, like the machine noticing each thing.
-  var rows = document.querySelectorAll("#rows li");
-  rows.forEach(function (li, i) { setTimeout(function () { li.classList.add("on"); }, reduce ? 0 : 500 + i * 260); });
+  tiles.forEach(function (t, i) {
+    t.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { held = true; show(i); } });
+    t.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") held = false; });
+    t.addEventListener("click", function () { show(i); held = true; clearTimeout(t._r); t._r = setTimeout(function () { held = false; }, 4000); });
+  });
 
-  // Footer mark: the nine dots open their eyes and follow you.
-  var eyes = $("eyes"), pupils = eyes.querySelectorAll(".pupil"), eyeEls = eyes.querySelectorAll(".eye");
-  var io = new IntersectionObserver(function (es) {
-    if (es[0].isIntersecting) { eyes.classList.add("awake"); io.disconnect(); }
-  }, { threshold: 0.4 });
-  io.observe(eyes);
-  if (reduce) return;
-  function look(x, y) {
-    eyeEls.forEach(function (eye, i) {
-      var r = eye.getBoundingClientRect();
-      var dx = x - (r.left + r.width / 2), dy = y - (r.top + r.height / 2);
-      var a = Math.atan2(dy, dx), d = Math.min(1, Math.hypot(dx, dy) / 200) * r.width * 0.22;
-      pupils[i].style.transform = "translate(" + Math.cos(a) * d + "px," + Math.sin(a) * d + "px)";
-    });
+  // The board leans towards the pointer.
+  if (!reduce && fine) {
+    addEventListener("pointermove", function (e) {
+      var x = e.clientX / innerWidth - 0.5, y = e.clientY / innerHeight - 0.5;
+      board.style.setProperty("--tilt-z", (x * 10).toFixed(2) + "deg");
+      board.style.setProperty("--tilt-x", (-y * 10).toFixed(2) + "deg");
+    }, { passive: true });
+  } else if (!reduce) {
+    // On phones, a slow sway so it feels alive.
+    var t0 = performance.now();
+    (function sway(now) {
+      var s = (now - t0) / 1000;
+      board.style.setProperty("--tilt-z", (Math.sin(s * 0.6) * 5).toFixed(2) + "deg");
+      board.style.setProperty("--tilt-x", (Math.cos(s * 0.45) * 3).toFixed(2) + "deg");
+      requestAnimationFrame(sway);
+    })(t0);
+    board.style.transition = "none";
   }
-  eyes.querySelectorAll(".pupil").forEach(function (p) { p.style.transition = "scale 460ms var(--ease-out), transform 180ms var(--ease-out)"; });
-  if (touch) {
-    addEventListener("pointerdown", function (e) { look(e.clientX, e.clientY); });
-    setInterval(function () { look(Math.random() * innerWidth, Math.random() * innerHeight); }, 2200);
-  } else {
-    addEventListener("pointermove", function (e) { look(e.clientX, e.clientY); }, { passive: true });
-  }
-  setInterval(function () {
-    var e = eyeEls[Math.floor(Math.random() * eyeEls.length)];
-    e.classList.remove("blink"); void e.offsetWidth; e.classList.add("blink");
-  }, 1800);
 })();
 </script>
 </body>
