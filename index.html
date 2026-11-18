@@ -81,7 +81,8 @@
   .lead { margin-top: 20px; font-size: 1.125rem; max-width: 30rem; color: var(--fg-muted); }
 
   /* The board: nine cartridges laid out like the poster, tilting towards you. */
-  .stage { position: relative; display: grid; place-items: center; perspective: 1600px; padding: 4% 0 0; overflow-x: clip; }
+  .stage { position: relative; display: grid; place-items: center; perspective: 1600px; padding: 4% 0 0; }
+  @media (min-width: 960px) { .board { width: min(32vw, 460px) !important; } }
   .board {
     --tilt-x: 0deg; --tilt-z: 0deg;
     width: min(60vw, 480px); aspect-ratio: 1;
