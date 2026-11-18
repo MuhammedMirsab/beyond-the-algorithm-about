@@ -41,7 +41,7 @@
   [data-game="phone"] { --game: oklch(0.76 0.145 262); --deep: oklch(0.68 0.18 266); --ink: oklch(0.16 0.05 266); }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { background: var(--canvas); -webkit-text-size-adjust: 100%; }
+  html { background: var(--canvas); -webkit-text-size-adjust: 100%; overflow-x: clip; }
   body {
     min-height: 100dvh; background: var(--canvas); color: var(--fg);
     font-family: "Mona Sans", ui-sans-serif, system-ui, sans-serif;
@@ -81,10 +81,10 @@
   .lead { margin-top: 20px; font-size: 1.125rem; max-width: 30rem; color: var(--fg-muted); }
 
   /* The board: nine cartridges laid out like the poster, tilting towards you. */
-  .stage { position: relative; display: grid; place-items: center; perspective: 1600px; padding: 4% 0 0; }
+  .stage { position: relative; display: grid; place-items: center; perspective: 1600px; padding: 4% 0 0; overflow-x: clip; }
   .board {
     --tilt-x: 0deg; --tilt-z: 0deg;
-    width: min(68vw, 480px); aspect-ratio: 1;
+    width: min(60vw, 480px); aspect-ratio: 1;
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 5%;
     transform-style: preserve-3d;
     transform: rotateX(calc(54deg + var(--tilt-x))) rotateZ(calc(-38deg + var(--tilt-z)));
@@ -198,7 +198,7 @@
 <main class="wrap">
   <section class="hero" aria-labelledby="hero-title">
     <div>
-      <span class="eyebrow mono enter"><span class="live-dot" aria-hidden="true"></span>Live in Room 227 · 19 and 20 November</span>
+      <span class="eyebrow mono enter"><span class="live-dot" aria-hidden="true"></span>Live in Room 227 · 19 and 20 Nov</span>
       <h1 id="hero-title" class="enter" style="--d:80ms">Pick a game. <span class="dim">It picks up on you.</span></h1>
       <p class="lead enter" style="--d:160ms">Nine quick games where you show the machine your face, your hands and your choices. It works out more than you expect, then we show you exactly how.</p>
     </div>
