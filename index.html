@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#121419">
 <title>Beyond the Algorithm · EDEX 2026</title>
-<meta name="description" content="Nine quick games that show what AI can work out about you. Come play them live in Room 227, IISJ, 19 and 20 November.">
+<meta name="description" content="Ten quick games that show what AI can work out about you. Come play them live in Room 227, IISJ, 19 and 20 November.">
 <meta property="og:title" content="Beyond the Algorithm · EDEX 2026">
-<meta property="og:description" content="Nine quick games that show what AI can work out about you. Room 227, 19 and 20 November.">
+<meta property="og:description" content="Ten quick games that show what AI can work out about you. Room 227, 19 and 20 November.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Ccircle cx='5' cy='5' r='3.6' fill='%23ff6fa8'/%3E%3Ccircle cx='15' cy='5' r='3.6' fill='%23ff7f5c'/%3E%3Ccircle cx='25' cy='5' r='3.6' fill='%23ffaf4a'/%3E%3Ccircle cx='5' cy='15' r='3.6' fill='%23f3dc3a'/%3E%3Ccircle cx='15' cy='15' r='3.6' fill='%23aee84a'/%3E%3Ccircle cx='25' cy='15' r='3.6' fill='%234fe3b0'/%3E%3Ccircle cx='5' cy='25' r='3.6' fill='%233fd6ea'/%3E%3Ccircle cx='15' cy='25' r='3.6' fill='%2359b8ff'/%3E%3Ccircle cx='25' cy='25' r='3.6' fill='%237f98ff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +38,7 @@
   [data-game="train"] { --game: oklch(0.85 0.15 165); --deep: oklch(0.76 0.15 175); --ink: oklch(0.17 0.04 170); }
   [data-game="learns"] { --game: oklch(0.84 0.13 205); --deep: oklch(0.74 0.14 220); --ink: oklch(0.17 0.04 220); }
   [data-game="real-or-ai"] { --game: oklch(0.82 0.155 62); --deep: oklch(0.74 0.17 50); --ink: oklch(0.18 0.05 55); }
+  [data-game="sky"] { --game: oklch(0.86 0.16 80); --deep: oklch(0.78 0.17 66); --ink: oklch(0.18 0.05 75); }
   [data-game="phone"] { --game: oklch(0.76 0.145 262); --deep: oklch(0.68 0.18 266); --ink: oklch(0.16 0.05 266); }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,8 +58,8 @@
   .wrap { width: 100%; max-width: 75rem; margin: 0 auto; padding: 0 var(--gutter); }
   .mono { font-family: "Martian Mono", ui-monospace, monospace; font-size: 0.8125rem; line-height: 1.35; font-weight: 500; font-stretch: 90%; letter-spacing: -0.005em; }
 
-  .mark { display: grid; grid-template-columns: repeat(3, 1fr); width: 20px; height: 20px; flex-shrink: 0; }
-  .mark i { width: 4.3px; height: 4.3px; border-radius: 50%; place-self: center; background: var(--game); }
+  .mark { width: 20px; height: 20px; flex-shrink: 0; }
+  .mark circle { fill: var(--game); }
 
   /* Header */
   header .wrap { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: env(safe-area-inset-top); }
@@ -80,13 +81,13 @@
   h1 .dim { display: block; color: var(--fg-faint); }
   .lead { margin-top: 20px; font-size: 1.125rem; max-width: 30rem; color: var(--fg-muted); }
 
-  /* The board: nine cartridges laid out like the poster, tilting towards you. */
+  /* The board: ten cartridges laid out like the poster, the tenth on its own row, tilting towards you. */
   .stage { position: relative; display: grid; place-items: center; perspective: 1600px; padding: 4% 0 0; }
   @media (min-width: 960px) { .board { width: min(32vw, 460px) !important; } }
   .board {
     --tilt-x: 0deg; --tilt-z: 0deg;
-    width: min(60vw, 480px); aspect-ratio: 1;
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 5%;
+    width: min(60vw, 480px); aspect-ratio: 3 / 4;
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); gap: 5%;
     transform-style: preserve-3d;
     transform: rotateX(calc(54deg + var(--tilt-x))) rotateZ(calc(-38deg + var(--tilt-z)));
     transition: transform 900ms var(--ease-out);
@@ -117,6 +118,7 @@
       1.2cqw 1.6cqw 0 color-mix(in oklab, var(--deep) 70%, black),
       7cqw 10cqw 8cqw oklch(0 0 0 / 0.45);
   }
+  .tile:nth-child(10) { grid-column: 2; }
   .tile .n { position: absolute; top: 9%; right: 11%; font-family: "Doto", monospace; font-weight: 800; font-variation-settings: "ROND" 70; font-size: 4.2cqw; line-height: 1; opacity: 0.7; }
   .tile svg { position: absolute; left: 50%; top: 46%; width: 34%; height: 34%; translate: -50% -50%; }
   .tile .t { position: absolute; left: 11%; right: 9%; bottom: 9%; font-size: 2.9cqw; line-height: 1.08; font-weight: 750; font-stretch: 104%; letter-spacing: -0.01em; }
@@ -189,7 +191,7 @@
 <header>
   <div class="wrap">
     <div class="brand">
-      <span class="mark" aria-hidden="true"><i data-game="mind-reader"></i><i data-game="viewfinder"></i><i data-game="real-or-ai"></i><i data-game="rps"></i><i data-game="face"></i><i data-game="train"></i><i data-game="learns"></i><i data-game="airwrite"></i><i data-game="phone"></i></span>
+      <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><circle data-game="mind-reader" cx="10.00" cy="3.66" r="1.76"/><circle data-game="viewfinder" cx="7.56" cy="7.89" r="1.76"/><circle data-game="real-or-ai" cx="12.44" cy="7.89" r="1.76"/><circle data-game="sky" cx="5.12" cy="12.11" r="1.76"/><circle data-game="rps" cx="10.00" cy="12.11" r="1.76"/><circle data-game="face" cx="14.88" cy="12.11" r="1.76"/><circle data-game="train" cx="2.68" cy="16.34" r="1.76"/><circle data-game="learns" cx="7.56" cy="16.34" r="1.76"/><circle data-game="airwrite" cx="12.44" cy="16.34" r="1.76"/><circle data-game="phone" cx="17.32" cy="16.34" r="1.76"/></svg>
       Beyond the Algorithm
     </div>
     <span class="head-meta">EDEX 2026 · IISJ Computer Science</span>
@@ -201,12 +203,12 @@
     <div>
       <span class="eyebrow mono enter"><span class="live-dot" aria-hidden="true"></span>Live in Room 227 · 19 and 20 Nov</span>
       <h1 id="hero-title" class="enter" style="--d:80ms">Pick a game. <span class="dim">It picks up on you.</span></h1>
-      <p class="lead enter" style="--d:160ms">Nine quick games where you show the machine your face, your hands and your choices. It works out more than you expect, then we show you exactly how.</p>
+      <p class="lead enter" style="--d:160ms">Ten quick games where you show the machine your face, your hands and your choices. It works out more than you expect, then we show you exactly how.</p>
     </div>
 
     <div class="enter" style="--d:120ms">
       <div class="stage">
-        <ul class="board" id="board" aria-label="The nine games">
+        <ul class="board" id="board" aria-label="The ten games">
           <li class="tile" data-game="mind-reader" style="--i:0" data-name="Can AI read your mind?" data-skill="Binary search"><span class="n">01</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M12 5v14"/><rect x="3" y="5" width="9" height="14" rx="3" fill="currentColor" stroke="none" opacity="0.9"/></svg><span class="t">Can AI read your mind?</span></li>
           <li class="tile" data-game="rps" style="--i:1" data-name="Rock, paper, scissors" data-skill="Pattern prediction"><span class="n">02</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="6.5" cy="17.5" r="2.5"/><path d="M8.6 8.1 20 19"/><path d="M8.6 15.9 20 5"/></svg><span class="t">Rock, paper, scissors</span></li>
           <li class="tile" data-game="face" style="--i:2" data-name="Face Control" data-skill="Face tracking, 478 points"><span class="n">03</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g transform="rotate(-12 12 12)"><rect x="4" y="3" width="16" height="18" rx="8"/><circle cx="9.2" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="14.8" cy="10" r="1" fill="currentColor" stroke="none"/><ellipse cx="12" cy="15.4" rx="2.2" ry="1.9"/></g></svg><span class="t">Face Control</span></li>
@@ -216,6 +218,7 @@
           <li class="tile" data-game="learns" style="--i:6" data-name="See how AI learns" data-skill="Image classification"><span class="n">07</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="12" rx="2.5"/><path d="m3.5 13 4-3.5 3 2.5 2-1.5 4 3.5"/><path d="M13 17.5h6.5a1.5 1.5 0 0 0 1.5-1.5v-2.5L18.5 11H13a1.5 1.5 0 0 0-1.5 1.5V16a1.5 1.5 0 0 0 1.5 1.5Z" fill="currentColor" stroke="none"/></svg><span class="t">See how AI learns</span></li>
           <li class="tile" data-game="real-or-ai" style="--i:7" data-name="Real or AI?" data-skill="Image generation"><span class="n">08</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="2"/><rect x="13" y="5" width="8" height="14" rx="2" stroke-dasharray="0.1 3.2"/></svg><span class="t">Real or AI?</span></li>
           <li class="tile" data-game="phone" style="--i:8" data-name="Your phone knows more than you think" data-skill="Sensors and inference"><span class="n">09</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 5.5h3"/><circle cx="12" cy="13" r="2.5" fill="currentColor" stroke="none"/></svg><span class="t">Your phone knows more than you think</span></li>
+          <li class="tile" data-game="sky" style="--i:9" data-name="Sky Shot" data-skill="Hand tracking, 21 points"><span class="n">10</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2.5v4M12 17.5v4M2.5 12h4M17.5 12h4"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/></svg><span class="t">Sky Shot</span></li>
         </ul>
       </div>
       <div class="now" aria-hidden="true">
@@ -234,7 +237,7 @@
       <div class="when" aria-label="19 and 20 November">19+20<br>Nov</div>
     </div>
     <ul class="facts">
-      <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>2 to 4 minutes each</b><span>Try one, or all nine. All ages welcome.</span></div></li>
+      <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>2 to 4 minutes each</b><span>Try one, or all ten. All ages welcome.</span></div></li>
       <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><div><b>Nothing is recorded</b><span>The camera is read live. No photos are saved.</span></div></li>
       <li class="fact reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg><div><b>Take it home</b><span>Visit us and we'll give you the link to play on your phone.</span></div></li>
     </ul>
